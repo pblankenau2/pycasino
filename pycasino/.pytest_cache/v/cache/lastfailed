@@ -1,0 +1,6 @@
+{
+  "tests/test_outcome.py::test_win_amount": true,
+  "tests/test_table.py::test_table_bets_is_valid_valid": true,
+  "tests/test_table.py::test_table_no_bets[table]": true,
+  "tests/test_table.py::test_table_place_bet": true
+}

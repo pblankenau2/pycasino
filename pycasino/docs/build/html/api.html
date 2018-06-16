@@ -1,0 +1,698 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>roulette Python API &#8212; roulette 0.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="PyRoulette Documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="roulette-python-api">
+<h1>roulette Python API<a class="headerlink" href="#roulette-python-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-roulette.model">
+<span id="roulette-model"></span><h2>roulette.model<a class="headerlink" href="#module-roulette.model" title="Permalink to this headline">¶</a></h2>
+<p>A collection of classes to represent the game of roulette.</p>
+<p>Paragraph giving more detail.</p>
+<p>Available classes:
+-Outcome: Represents an outcome of a spin of a wheel in roulette.</p>
+<dl class="class">
+<dt id="roulette.model.Bet">
+<em class="property">class </em><code class="descclassname">roulette.model.</code><code class="descname">Bet</code><span class="sig-paren">(</span><em>amount</em>, <em>outcome</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Bet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains an amount bet and the outcome bet upon.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>amount</strong> (<em>Float.</em>) – The amount of money to bet.</li>
+<li><strong>outcome</strong> (<em>Outcome.</em>) – The outcome to bet upon.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="roulette.model.Bet.lose_amount">
+<code class="descname">lose_amount</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Bet.lose_amount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Amount player can lose on the bet.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.model.Bet.win_amount">
+<code class="descname">win_amount</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Bet.win_amount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Amount player can win on the bet.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.model.Bin">
+<em class="property">class </em><code class="descclassname">roulette.model.</code><code class="descname">Bin</code><a class="headerlink" href="#roulette.model.Bin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a bin on a roulette wheel. A collection of <code class="xref py py-class docutils literal notranslate"><span class="pre">Outcomes</span></code>.</p>
+<dl class="method">
+<dt id="roulette.model.Bin.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>outcome</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Bin.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an outcome to the outcomes.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.model.Game">
+<em class="property">class </em><code class="descclassname">roulette.model.</code><code class="descname">Game</code><span class="sig-paren">(</span><em>table</em>, <em>wheel</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the game of roulette.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>table</strong> (<a class="reference internal" href="#roulette.model.Table" title="roulette.model.Table"><em>Table</em></a>) – The Table you want to play on.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="roulette.model.Game.cycle">
+<code class="descname">cycle</code><span class="sig-paren">(</span><em>player</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Game.cycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a single cycle of play with a given <code class="xref py py-class docutils literal notranslate"><span class="pre">Player</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="roulette.model.InvalidBet">
+<em class="property">exception </em><code class="descclassname">roulette.model.</code><code class="descname">InvalidBet</code><a class="headerlink" href="#roulette.model.InvalidBet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raises an exception when there is an invalid bet.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.model.Outcome">
+<em class="property">class </em><code class="descclassname">roulette.model.</code><code class="descname">Outcome</code><span class="sig-paren">(</span><em>name</em>, <em>odds</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Outcome" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents an outcome of a spin of a wheel in roulette.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> – The name of the outcome, e.g. “Red”, “1”.</li>
+<li><strong>odds</strong> – The odds of the outcome.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="roulette.model.Outcome.win_amount">
+<code class="descname">win_amount</code><span class="sig-paren">(</span><em>amount</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Outcome.win_amount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the amount of money won.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>amount</strong> (<em>float</em>) – The amount of money bet.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The amount of money won.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.model.Simulator">
+<em class="property">class </em><code class="descclassname">roulette.model.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em>game</em>, <em>player</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Simulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects roulette simulation statistics.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>game</strong> (<a class="reference internal" href="#roulette.model.Game" title="roulette.model.Game"><em>Game</em></a>) – An instance of game.</li>
+<li><strong>player</strong> (<a class="reference internal" href="#roulette.player.Player" title="roulette.player.Player"><em>Player</em></a>) – An instance of player.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="roulette.model.Simulator.gather">
+<code class="descname">gather</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Simulator.gather" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute number of game sessions in self.samples.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.model.Simulator.session">
+<code class="descname">session</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Simulator.session" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a single game session.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.model.Table">
+<em class="property">class </em><code class="descclassname">roulette.model.</code><code class="descname">Table</code><span class="sig-paren">(</span><em>limit</em>, <em>bets=None</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains all the bets created by the player.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>limit</strong> (<em>Float</em>) – The maximum permitted total bet on the table.</li>
+<li><strong>bets</strong> (<em>list</em>) – Bets to place on the table.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="roulette.model.Table.clear_bets">
+<code class="descname">clear_bets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Table.clear_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear bets off of the table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.model.Table.is_valid">
+<code class="descname">is_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Table.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the bets on the table.</p>
+<p>Individual bets must be larger than the table minimum.
+The total off all bets on the table must not surpass the table limit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.model.Table.place_bet">
+<code class="descname">place_bet</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Table.place_bet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add this bet to the list of working bets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bet</strong> (<a class="reference internal" href="#roulette.model.Bet" title="roulette.model.Bet"><em>Bet</em></a>) – A bet to place.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.model.Wheel">
+<em class="property">class </em><code class="descclassname">roulette.model.</code><code class="descname">Wheel</code><a class="headerlink" href="#roulette.model.Wheel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a roulette wheel.  Contains ‘Bins’.</p>
+<dl class="method">
+<dt id="roulette.model.Wheel.add_outcome">
+<code class="descname">add_outcome</code><span class="sig-paren">(</span><em>bin_number</em>, <em>outcome</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Wheel.add_outcome" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an outcome to the bin with the bin_number index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.model.Wheel.get_outcome">
+<code class="descname">get_outcome</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Wheel.get_outcome" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an outcome given it’s common name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.model.Wheel.spin">
+<code class="descname">spin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.model.Wheel.spin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a randomly selected Bin.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-roulette.player">
+<span id="roulette-player"></span><h2>roulette.player<a class="headerlink" href="#module-roulette.player" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="roulette.player.Martingale">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">Martingale</code><span class="sig-paren">(</span><em>table</em>, <em>stake</em>, <em>base_bet_amount</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Martingale" title="Permalink to this definition">¶</a></dt>
+<dd><p>A player class using the Martingale betting strategy.</p>
+<p>The player doubles their bet on every loss
+and resets their bet to a base amount on each win.</p>
+<dl class="method">
+<dt id="roulette.player.Martingale.lose">
+<code class="descname">lose</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Martingale.lose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s lost.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Martingale.place_bets">
+<code class="descname">place_bets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Martingale.place_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the table with bets.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roulette.player.Martingale.playing">
+<code class="descname">playing</code><a class="headerlink" href="#roulette.player.Martingale.playing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True while player is still playing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Martingale.win">
+<code class="descname">win</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Martingale.win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s won.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.Passenger57">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">Passenger57</code><span class="sig-paren">(</span><em>table</em>, <em>stake</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Passenger57" title="Permalink to this definition">¶</a></dt>
+<dd><p>A player that only bets on black.</p>
+<dl class="method">
+<dt id="roulette.player.Passenger57.lose">
+<code class="descname">lose</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Passenger57.lose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s lost.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Passenger57.place_bets">
+<code class="descname">place_bets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Passenger57.place_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Place bet on table.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roulette.player.Passenger57.playing">
+<code class="descname">playing</code><a class="headerlink" href="#roulette.player.Passenger57.playing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if player is still playing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Passenger57.win">
+<code class="descname">win</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Passenger57.win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s won.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.Player">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">Player</code><span class="sig-paren">(</span><em>table</em>, <em>stake</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for players.</p>
+<dl class="method">
+<dt id="roulette.player.Player.lose">
+<code class="descname">lose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player.lose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s lost.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Player.place_bets">
+<code class="descname">place_bets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player.place_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the table with bets.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roulette.player.Player.playing">
+<code class="descname">playing</code><a class="headerlink" href="#roulette.player.Player.playing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True while player is still playing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Player.win">
+<code class="descname">win</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player.win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s won.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.Player1326">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">Player1326</code><span class="sig-paren">(</span><em>table</em>, <em>stake</em>, <em>base_bet_amount</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="roulette.player.Player1326.lose">
+<code class="descname">lose</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326.lose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s lost.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Player1326.place_bets">
+<code class="descname">place_bets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326.place_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the table with bets.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roulette.player.Player1326.playing">
+<code class="descname">playing</code><a class="headerlink" href="#roulette.player.Player1326.playing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True while player is still playing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Player1326.win">
+<code class="descname">win</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326.win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s won.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.Player1326NoWins">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">Player1326NoWins</code><span class="sig-paren">(</span><em>player</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326NoWins" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="roulette.player.Player1326NoWins.current_bet">
+<code class="descname">current_bet</code><a class="headerlink" href="#roulette.player.Player1326NoWins.current_bet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a new Bet from the player’s preferred Outcome.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Player1326NoWins.next_won">
+<code class="descname">next_won</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326NoWins.next_won" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs the new Player1326State instance when bet was a winner.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.Player1326OneWins">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">Player1326OneWins</code><span class="sig-paren">(</span><em>player</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326OneWins" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="roulette.player.Player1326OneWins.current_bet">
+<code class="descname">current_bet</code><a class="headerlink" href="#roulette.player.Player1326OneWins.current_bet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a new Bet from the player’s preferred Outcome.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Player1326OneWins.next_won">
+<code class="descname">next_won</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326OneWins.next_won" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs the new Player1326State instance when bet was a winner.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.Player1326State">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">Player1326State</code><span class="sig-paren">(</span><em>player</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326State" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for the player 1326 states.</p>
+<p>This is overengineered but demonstrates the state design pattern.</p>
+<dl class="attribute">
+<dt id="roulette.player.Player1326State.current_bet">
+<code class="descname">current_bet</code><a class="headerlink" href="#roulette.player.Player1326State.current_bet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a new Bet from the player’s preferred Outcome.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Player1326State.next_lost">
+<code class="descname">next_lost</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326State.next_lost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs the new Player1326State instance when bet was a loser.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Player1326State.next_won">
+<code class="descname">next_won</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326State.next_won" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs the new Player1326State instance when bet was a winner.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.Player1326StateAlternate">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">Player1326StateAlternate</code><span class="sig-paren">(</span><em>player</em>, <em>bet_multiplier</em>, <em>next_win</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326StateAlternate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alternative player 1326 state class.</p>
+<p>This class provides alternative constructors for itself
+each representing a betting state.  The class
+instances keep track of which instance to
+instantiate next for the state change. This solution
+might be overly elaborate.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.Player1326ThreeWins">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">Player1326ThreeWins</code><span class="sig-paren">(</span><em>player</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326ThreeWins" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="roulette.player.Player1326ThreeWins.current_bet">
+<code class="descname">current_bet</code><a class="headerlink" href="#roulette.player.Player1326ThreeWins.current_bet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a new Bet from the player’s preferred Outcome.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Player1326ThreeWins.next_won">
+<code class="descname">next_won</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326ThreeWins.next_won" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs the new Player1326State instance when bet was a winner.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.Player1326TwoWins">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">Player1326TwoWins</code><span class="sig-paren">(</span><em>player</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326TwoWins" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="roulette.player.Player1326TwoWins.current_bet">
+<code class="descname">current_bet</code><a class="headerlink" href="#roulette.player.Player1326TwoWins.current_bet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a new Bet from the player’s preferred Outcome.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.Player1326TwoWins.next_won">
+<code class="descname">next_won</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.Player1326TwoWins.next_won" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs the new Player1326State instance when bet was a winner.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.PlayerCancellation">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">PlayerCancellation</code><span class="sig-paren">(</span><em>table</em>, <em>stake</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.PlayerCancellation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="roulette.player.PlayerCancellation.lose">
+<code class="descname">lose</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.PlayerCancellation.lose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s lost.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.PlayerCancellation.place_bets">
+<code class="descname">place_bets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.PlayerCancellation.place_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the table with bets.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roulette.player.PlayerCancellation.playing">
+<code class="descname">playing</code><a class="headerlink" href="#roulette.player.PlayerCancellation.playing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True while player is still playing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.PlayerCancellation.win">
+<code class="descname">win</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.PlayerCancellation.win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s won.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.PlayerFibonacci">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">PlayerFibonacci</code><span class="sig-paren">(</span><em>table</em>, <em>stake</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.PlayerFibonacci" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="roulette.player.PlayerFibonacci.lose">
+<code class="descname">lose</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.PlayerFibonacci.lose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s lost.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.PlayerFibonacci.win">
+<code class="descname">win</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.PlayerFibonacci.win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s won.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.RandomPlayer">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">RandomPlayer</code><span class="sig-paren">(</span><em>table</em>, <em>stake</em>, <em>bet_amount</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.RandomPlayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>A player who bets on random outcomes.</p>
+<dl class="method">
+<dt id="roulette.player.RandomPlayer.lose">
+<code class="descname">lose</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.RandomPlayer.lose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s lost.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.RandomPlayer.place_bets">
+<code class="descname">place_bets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.RandomPlayer.place_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the table with bets.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roulette.player.RandomPlayer.playing">
+<code class="descname">playing</code><a class="headerlink" href="#roulette.player.RandomPlayer.playing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True while player is still playing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roulette.player.RandomPlayer.win">
+<code class="descname">win</code><span class="sig-paren">(</span><em>bet</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.RandomPlayer.win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification of the bet that’s won.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roulette.player.SevenReds">
+<em class="property">class </em><code class="descclassname">roulette.player.</code><code class="descname">SevenReds</code><span class="sig-paren">(</span><em>table</em>, <em>stake</em>, <em>base_bet_amount</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.SevenReds" title="Permalink to this definition">¶</a></dt>
+<dd><p>SevenReds is a Martingale player who places bets in Roulette.</p>
+<p>This player waits until the wheel has spun red seven
+times in a row before betting black.</p>
+<dl class="method">
+<dt id="roulette.player.SevenReds.place_bets">
+<code class="descname">place_bets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.SevenReds.place_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the table with bets.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="roulette.player.player_factory">
+<code class="descclassname">roulette.player.</code><code class="descname">player_factory</code><span class="sig-paren">(</span><em>player_name</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.player.player_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A player factory</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-roulette.bin_builder">
+<span id="roulette-bin-builder"></span><h2>roulette.bin_builder<a class="headerlink" href="#module-roulette.bin_builder" title="Permalink to this headline">¶</a></h2>
+<p>A set of functions used to add bins to the wheel (factory?).</p>
+<dl class="function">
+<dt id="roulette.bin_builder.add_column_bets">
+<code class="descclassname">roulette.bin_builder.</code><code class="descname">add_column_bets</code><span class="sig-paren">(</span><em>wheel</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.bin_builder.add_column_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add column bet outcomes to the wheel.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="roulette.bin_builder.add_corner_bets">
+<code class="descclassname">roulette.bin_builder.</code><code class="descname">add_corner_bets</code><span class="sig-paren">(</span><em>wheel</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.bin_builder.add_corner_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add corner bet outcomes to the wheel.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="roulette.bin_builder.add_dozen_bets">
+<code class="descclassname">roulette.bin_builder.</code><code class="descname">add_dozen_bets</code><span class="sig-paren">(</span><em>wheel</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.bin_builder.add_dozen_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add dozen bet outcomes to the wheel.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="roulette.bin_builder.add_even_money_bets">
+<code class="descclassname">roulette.bin_builder.</code><code class="descname">add_even_money_bets</code><span class="sig-paren">(</span><em>wheel</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.bin_builder.add_even_money_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add even-money bet outcomes to the wheel.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="roulette.bin_builder.add_five_bets">
+<code class="descclassname">roulette.bin_builder.</code><code class="descname">add_five_bets</code><span class="sig-paren">(</span><em>wheel</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.bin_builder.add_five_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add five bet outcomes to the wheel.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="roulette.bin_builder.add_line_bets">
+<code class="descclassname">roulette.bin_builder.</code><code class="descname">add_line_bets</code><span class="sig-paren">(</span><em>wheel</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.bin_builder.add_line_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add line bet outcomes to the wheel.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="roulette.bin_builder.add_split_bets">
+<code class="descclassname">roulette.bin_builder.</code><code class="descname">add_split_bets</code><span class="sig-paren">(</span><em>wheel</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.bin_builder.add_split_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add split bet outcomes to the wheel.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="roulette.bin_builder.add_straight_bets">
+<code class="descclassname">roulette.bin_builder.</code><code class="descname">add_straight_bets</code><span class="sig-paren">(</span><em>wheel</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.bin_builder.add_straight_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate straight bet outcomes and add them to the wheel.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="roulette.bin_builder.add_street_bets">
+<code class="descclassname">roulette.bin_builder.</code><code class="descname">add_street_bets</code><span class="sig-paren">(</span><em>wheel</em><span class="sig-paren">)</span><a class="headerlink" href="#roulette.bin_builder.add_street_bets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add street bet outcomes to the wheel.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="roulette.bin_builder.create_wheel">
+<code class="descclassname">roulette.bin_builder.</code><code class="descname">create_wheel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roulette.bin_builder.create_wheel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populate the bins in wheel with outcomes.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">roulette Python API</a><ul>
+<li><a class="reference internal" href="#module-roulette.model">roulette.model</a></li>
+<li><a class="reference internal" href="#module-roulette.player">roulette.player</a></li>
+<li><a class="reference internal" href="#module-roulette.bin_builder">roulette.bin_builder</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">PyRoulette Documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Philip Blankenau.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
