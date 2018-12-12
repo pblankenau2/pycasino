@@ -5,13 +5,9 @@
 This code was inspired by the book Building Skills in Object-Oriented Design
 by Steven Lott.
 
-Available classes:
--Outcome: Represents an outcome of a spin of a wheel in roulette.
-TODO: Update this.
-
 """
 import random
-import copy
+import inspect
 
 
 class Outcome:
@@ -50,13 +46,11 @@ class Outcome:
         return "{} ({}:1)".format(self.name, self.odds)
 
     def __repr__(self):
-        return "{class_:s}({name!r}, {odds!r})".format(
-            class_=type(self).__name__, **vars(self)
-        )
+        return f"{type(self).__name__}({self.name!r}, {self.odds!r})"
 
 
 class Bin:
-    """Represents a bin on a roulette wheel. A collection of :class:`Outcomes`."""
+    """Represents a bin on a roulette wheel. A collection of :class:`Outcome`."""
 
     def __init__(self):
         self.outcomes = frozenset()
@@ -67,11 +61,11 @@ class Bin:
         return self
 
     def __repr__(self):
-        return "{}({})".format(type(self).__name__, self.outcomes)
+        return f"{type(self).__name__}({self.outcomes!r})"
 
 
 class Wheel:
-    """Represents a roulette wheel.  Contains 'Bins'."""
+    """Represents a roulette wheel.  Contains :class:`Bin`s."""
 
     def __init__(self):
         self.bins = tuple(Bin() for i in range(38))
@@ -94,16 +88,12 @@ class Wheel:
         # Note: Steven Lott named this 'next' but that is for another purpose.
         return self.random_num_gen.choice(self.bins)
 
-    def get_outcome(self, name):
-        """Return an outcome given it's common name."""
-        return self.all_outcomes.get(name)
-
     def __repr__(self):
-        return "{}({bins})".format(type(self).__name__, **vars(self))
+        return f"{type(self).__name__}()"
 
 
 class Bet:
-    """Contains an amount bet and the outcome bet upon.
+    """Contains an amount bet and the :class:`Outcome` bet upon.
 
     :param amount: The amount of money to bet.
     :type amount: Float.
@@ -130,9 +120,7 @@ class Bet:
         return "{:.2f} on {}".format(self.amount_bet, self.outcome)
 
     def __repr__(self):
-        return "{}({:.2f}, {!r})".format(
-            type(self).__name__, self.amount_bet, self.outcome
-        )
+        return f"{type(self).__name__}({self.amount_bet:.2f}, {self.outcome!r})"
 
 
 class Table:
@@ -184,16 +172,15 @@ class Table:
         return str(self.bets)
 
     def __repr__(self):
-        return "{class_}({limit:.2f}, {bets!r})".format(
-            class_=type(self).__name__, **vars(self)
-        )
+        return f"{type(self).__name__}({self.limit:.2f}, {self.bets!r})"
 
 
 class Game:
     """Run the game of roulette.
 
-    :param table: The Table you want to play on.
+    :param table: The :class:`Table` you want to play on.
     :type table: Table
+    :param wheel: The :class:`Wheel` you want to play on.
 
     """
 
@@ -211,13 +198,13 @@ class Game:
                 if bet.outcome in winning_bin.outcomes:
                     player.win(bet)
                 else:
-                    player.lose(bet)
+                    player.lose()
             self.table.clear_bets()
             player._winners = winning_bin.outcomes
             player.rounds -= 1
 
     def __repr__(self):
-        return "{}({!r}, {!r})".format(type(self).__name__, self.table, self.wheel) # TODO: standardize the formatting of repr
+        return f"{type(self).__name__}({self.table!r}, {self.wheel!r})"
 
 
 # TODO: Create a Game factory function.
@@ -226,9 +213,9 @@ class Game:
 class Simulator:
     """Collects roulette simulation statistics.
 
-    :param game: An instance of game.
+    :param game: An instance of :class:`Game`.
     :type game: Game
-    :param player: An instance of player.
+    :param player: An instance of :class:`Player`.
     :type player: Player
 
     """
@@ -242,9 +229,32 @@ class Simulator:
         self.durations = list()
         self.maxima = list()
 
-    def session(self):
+    def _recreate_player(self):
+        """Create a duplicate of the original player.
+
+        TODO: This code might be brittle.  Rethink it.
+        It depends on the player creating attributes that
+        match its arguments.
+
+        Check for way to use deepcopy.
+
+        Another option would be to pass in the player class (not instance)
+        and instantiate it within this class.  But then you would also need
+        to gather the args for the Player.
+
+        """
+        player_class = self._original_player.__class__
+        player_args = inspect.getargspec(self._original_player.__init__)[0][1:]
+        args = {
+            arg: getattr(self._original_player, arg)
+            for arg
+            in player_args
+        }
+        return player_class(**args)
+
+    def _session(self):
         """Execute a single game session."""
-        self.player = copy.copy(self._original_player)
+        self.player = self._recreate_player()
         stake_vals = [self.player.stake]
         while self.player.playing:
             self.game.cycle(self.player)
@@ -254,16 +264,12 @@ class Simulator:
     def gather(self):
         """Execute number of game sessions in self.samples."""
         for _ in range(self.samples):
-            stakes = self.session()
+            stakes = self._session()
             self.maxima.append(max(stakes))
             self.durations.append(len(stakes))
 
     def __repr__(self):
-        return "{}({!r}, {!r})".format(
-            type(self).__name__,
-            self.game,
-            self.player
-            )
+        return f"{type(self).__name__}({self.game!r}, {self.player!r})"
 
 
 class InvalidBet(Exception):

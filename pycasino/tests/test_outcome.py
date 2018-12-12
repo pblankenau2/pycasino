@@ -1,7 +1,7 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import pytest
-import random
 from .context import roulette
 
 
@@ -23,3 +23,8 @@ def test_outcome_hash_eq():
     outcome1 = roulette.model.Outcome('Red', 1)
     outcome2 = roulette.model.Outcome('Red', 1)
     assert hash(outcome1) == hash(outcome2)
+
+def test_outcome_from_name():
+    outcome_from_name = roulette.bin_builder.get_outcome('Red')
+    assert outcome_from_name == roulette.model.Outcome('Red', 1)
+    

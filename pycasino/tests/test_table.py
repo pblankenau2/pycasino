@@ -7,18 +7,17 @@ from .context import roulette
 
 @pytest.fixture
 def table():
-    return roulette.model.Table(300, 30)
+    return roulette.model.Table(300)
 
 @pytest.fixture
 def table_with_bets():
     return roulette.model.Table(
         300,
-        30,
         roulette.model.Bet(
             200,
             roulette.model.Outcome('Red', 1)
-            )
         )
+    )
 
 # TODO: Does this test really add any info?
 def test_table_no_bets(table):
@@ -38,8 +37,8 @@ def test_table_place_bet(table):
         roulette.model.Bet(
             200,
             roulette.model.Outcome('Red', 1)
-            )
         )
+    )
 
     assert table.bets != list()
 
@@ -48,7 +47,7 @@ def test_table_bets_is_valid_valid(table):
     """Check to see if a valid bet is valid."""
     table.place_bet(
         roulette.model.Bet(300, roulette.model.Outcome('Red', 1))
-        )
+    )
     table.is_valid()
 
 
@@ -57,14 +56,5 @@ def test_table_bets_is_valid_invalid_over_limit(table):
     with pytest.raises(roulette.model.InvalidBet):
         table.place_bet(
             roulette.model.Bet(400, roulette.model.Outcome('Red', 1))
-            )
-        table.is_valid()
-
-
-def test_table_bets_is_valid_invalid_under_min(table):
-    """Check if an 'under the minimum' bet throws the right error."""
-    with pytest.raises(roulette.model.InvalidBet):
-        table.place_bet(
-            roulette.model.Bet(10, roulette.model.Outcome('Red', 1))
-            )
+        )
         table.is_valid()

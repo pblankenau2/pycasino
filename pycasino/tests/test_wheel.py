@@ -3,7 +3,7 @@
 
 import pytest
 import random
-from unittest import mock
+from mock import Mock
 from .context import roulette
 
 
@@ -21,6 +21,6 @@ def test_wheel_add_outcome(wheel1):
 
 def test_wheel_random_bin(wheel1):
     """Tests the wheel's random bin selection."""
-    wheel1.random_num_gen = mock.Mock()
-    wheel1.random_num_gen.choice = mock.Mock(return_value="bin1")
+    wheel1.random_num_gen = Mock()
+    wheel1.random_num_gen.choice = Mock(return_value="bin1")
     assert wheel1.spin() == "bin1"

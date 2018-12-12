@@ -65,9 +65,7 @@ class PlayerPassenger57(Player):
     """
     def __init__(self, table, stake, rounds, bet_amount):
         super().__init__(table, stake, rounds)
-        # TODO: We have to create a wheel to get our outcome mapping.  Very clumsy.
-        self.wheel = bin_builder.create_wheel()
-        self.black = self.wheel.get_outcome('Black')
+        self.black = bin_builder.get_outcome('Black')
         self.bet_amount = bet_amount
 
     @property
@@ -80,7 +78,7 @@ class PlayerPassenger57(Player):
             return True
 
     def _determine_bets(self):
-        return model.Bet(self.bet_amount, self.black)
+        return [model.Bet(self.bet_amount, self.black)]
 
     def win(self, bet):
         self.stake += bet.win_amount
@@ -100,7 +98,6 @@ class PlayerMartingale(Player):
     def __init__(self, table, stake, rounds, base_bet_amount):
         super().__init__(table, stake, rounds)
         self.loss_count = 0
-        self.wheel = bin_builder.create_wheel()
         self.base_bet_amount = base_bet_amount
 
     # TODO: should we bet the remaining stake if the stake is under the strategy bet amount?
@@ -118,7 +115,7 @@ class PlayerMartingale(Player):
             return True
 
     def _determine_bets(self):
-        outcome = self.wheel.get_outcome('Black')
+        outcome = bin_builder.get_outcome('Black')
         bet = [model.Bet(self.bet_amount, outcome)]
         return bet
 
@@ -130,20 +127,30 @@ class PlayerMartingale(Player):
         self.loss_count += 1
 
 
-class PlayerSevenReds(Martingale):
+class PlayerSevenReds(PlayerMartingale):
     """SevenReds is a Martingale player who places bets in Roulette.
 
     This player waits until the wheel has spun red seven
-    times in a row before betting black.
+    times in a row before betting black.  The behavior thereafter is
+    the same as the Martingale stategy.  I am not sure if, after a loss,
+    the betting should be suspended until seven reds appear again.  Currently
+    after the first time seven reds in a row occur the player essentially
+    becomes a PlayerMartingale player.
+
+    :param table: A table to play on.
+    :type table: Table
+    :param stake: An intial pool of money to bet with.
+    :type stake: float
+    :param base_bet_amount: An intial amount to bet.
+    :type base_bet_amount: float
 
     """
 
     def __init__(self, table, stake, rounds, base_bet_amount):
         super().__init__(table, stake, rounds, base_bet_amount)
         self._red_count = 7
-        self._wheel = bin_builder.create_wheel()
-        self._red = self.wheel.get_outcome('Red')
-        self._black = self.wheel.get_outcome('Black')
+        self._red = bin_builder.get_outcome('Red')
+        self._black = bin_builder.get_outcome('Black')
         self._waiting = True
 
     def _determine_bets(self):
@@ -154,9 +161,10 @@ class PlayerSevenReds(Martingale):
                 self._red_count = 7
             if self._red_count == 0:
                 self._waiting = False
+            return [model.Bet(0.0, self._black)]
         else:
             bet = [model.Bet(self.bet_amount, self._black)]
-        return bet
+            return bet
 
 
 class PlayerRandom(Player):
@@ -219,7 +227,7 @@ class Player1326StateAlternate:
         return model.Bet(
             self.player.base_bet_amount * self.bet_multiplier,
             self.player.outcome
-            )
+        )
 
     def next_won(self):
         return self.next_win(self.player)
@@ -314,10 +322,10 @@ class Player1326ThreeWins(Player1326State):
 
 class Player1326(Player):
 
-    def __init__(self, table, stake, rounds, base_bet_amount):
+    def __init__(self, table, stake, rounds, base_bet_amount): # TODO should we have base_bet_amount be the same name for all Players?
         super().__init__(table, stake, rounds)
         self.base_bet_amount = base_bet_amount
-        self.outcome = bin_builder.create_wheel().get_outcome('Black')
+        self.outcome = bin_builder.get_outcome('Black')
         self.state = Player1326StateAlternate._no_wins(self)
 
     @property
@@ -342,15 +350,21 @@ class Player1326(Player):
 
 
 class PlayerCancellation(Player):
+    """Player that uses the cancellation betting strategy."""
 
     def __init__(self, table, stake, rounds):
         super().__init__(table, stake, rounds)
-        self.sequence = self.reset_sequence()
-        self.outcome = bin_builder.create_wheel().get_outcome('Black')
+        self.sequence = list(range(1, 7))
+        self.outcome = bin_builder.get_outcome('Black')
 
     @property
     def playing(self):
-        if self.stake <= self.bet_amount:
+        if len(self.sequence) <= 1:
+            # This is the first conditional because
+            # bet_amount will error if the sequence list
+            # is empty.
+            return False
+        elif self.stake <= self.bet_amount:
             return False
         elif self.rounds <= 0:
             return False
@@ -367,9 +381,6 @@ class PlayerCancellation(Player):
 
     def lose(self):
         self.sequence.append(self.bet_amount)
-
-    def reset_sequence(self):
-        self.sequence = range(1, 7)
 
     @property
     def bet_amount(self):
@@ -402,5 +413,5 @@ class PlayerFibonacci(PlayerMartingale):
         self.current = 1
         self.previous = 0
 
-    def lose(self, bet):
+    def lose(self):
         self.current, self.previous = (self.current + self.previous), self.current

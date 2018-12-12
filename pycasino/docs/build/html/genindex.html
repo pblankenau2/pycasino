@@ -40,7 +40,6 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
- | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
@@ -127,7 +126,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#roulette.model.Simulator.gather">gather() (roulette.model.Simulator method)</a>
 </li>
-      <li><a href="api.html#roulette.model.Wheel.get_outcome">get_outcome() (roulette.model.Wheel method)</a>
+      <li><a href="api.html#roulette.bin_builder.get_outcome">get_outcome() (in module roulette.bin_builder)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -147,33 +146,25 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#roulette.player.Martingale.lose">lose() (roulette.player.Martingale method)</a>
+      <li><a href="api.html#roulette.player.Player.lose">lose() (roulette.player.Player method)</a>
 
       <ul>
-        <li><a href="api.html#roulette.player.Passenger57.lose">(roulette.player.Passenger57 method)</a>
-</li>
-        <li><a href="api.html#roulette.player.Player.lose">(roulette.player.Player method)</a>
-</li>
         <li><a href="api.html#roulette.player.Player1326.lose">(roulette.player.Player1326 method)</a>
 </li>
         <li><a href="api.html#roulette.player.PlayerCancellation.lose">(roulette.player.PlayerCancellation method)</a>
 </li>
         <li><a href="api.html#roulette.player.PlayerFibonacci.lose">(roulette.player.PlayerFibonacci method)</a>
 </li>
-        <li><a href="api.html#roulette.player.RandomPlayer.lose">(roulette.player.RandomPlayer method)</a>
+        <li><a href="api.html#roulette.player.PlayerMartingale.lose">(roulette.player.PlayerMartingale method)</a>
+</li>
+        <li><a href="api.html#roulette.player.PlayerPassenger57.lose">(roulette.player.PlayerPassenger57 method)</a>
+</li>
+        <li><a href="api.html#roulette.player.PlayerRandom.lose">(roulette.player.PlayerRandom method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#roulette.model.Bet.lose_amount">lose_amount() (roulette.model.Bet method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="M">M</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#roulette.player.Martingale">Martingale (class in roulette.player)</a>
+      <li><a href="api.html#roulette.model.Bet.lose_amount">lose_amount (roulette.model.Bet attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -209,26 +200,10 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#roulette.player.Passenger57">Passenger57 (class in roulette.player)</a>
-</li>
       <li><a href="api.html#roulette.model.Table.place_bet">place_bet() (roulette.model.Table method)</a>
 </li>
-      <li><a href="api.html#roulette.player.Martingale.place_bets">place_bets() (roulette.player.Martingale method)</a>
-
-      <ul>
-        <li><a href="api.html#roulette.player.Passenger57.place_bets">(roulette.player.Passenger57 method)</a>
+      <li><a href="api.html#roulette.player.Player.place_bets">place_bets() (roulette.player.Player method)</a>
 </li>
-        <li><a href="api.html#roulette.player.Player.place_bets">(roulette.player.Player method)</a>
-</li>
-        <li><a href="api.html#roulette.player.Player1326.place_bets">(roulette.player.Player1326 method)</a>
-</li>
-        <li><a href="api.html#roulette.player.PlayerCancellation.place_bets">(roulette.player.PlayerCancellation method)</a>
-</li>
-        <li><a href="api.html#roulette.player.RandomPlayer.place_bets">(roulette.player.RandomPlayer method)</a>
-</li>
-        <li><a href="api.html#roulette.player.SevenReds.place_bets">(roulette.player.SevenReds method)</a>
-</li>
-      </ul></li>
       <li><a href="api.html#roulette.player.Player">Player (class in roulette.player)</a>
 </li>
       <li><a href="api.html#roulette.player.Player1326">Player1326 (class in roulette.player)</a>
@@ -237,8 +212,6 @@
 </li>
       <li><a href="api.html#roulette.player.Player1326OneWins">Player1326OneWins (class in roulette.player)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#roulette.player.Player1326State">Player1326State (class in roulette.player)</a>
 </li>
       <li><a href="api.html#roulette.player.Player1326StateAlternate">Player1326StateAlternate (class in roulette.player)</a>
@@ -247,24 +220,32 @@
 </li>
       <li><a href="api.html#roulette.player.Player1326TwoWins">Player1326TwoWins (class in roulette.player)</a>
 </li>
-      <li><a href="api.html#roulette.player.player_factory">player_factory() (in module roulette.player)</a>
-</li>
       <li><a href="api.html#roulette.player.PlayerCancellation">PlayerCancellation (class in roulette.player)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#roulette.player.PlayerFibonacci">PlayerFibonacci (class in roulette.player)</a>
 </li>
-      <li><a href="api.html#roulette.player.Martingale.playing">playing (roulette.player.Martingale attribute)</a>
+      <li><a href="api.html#roulette.player.PlayerMartingale">PlayerMartingale (class in roulette.player)</a>
+</li>
+      <li><a href="api.html#roulette.player.PlayerPassenger57">PlayerPassenger57 (class in roulette.player)</a>
+</li>
+      <li><a href="api.html#roulette.player.PlayerRandom">PlayerRandom (class in roulette.player)</a>
+</li>
+      <li><a href="api.html#roulette.player.PlayerSevenReds">PlayerSevenReds (class in roulette.player)</a>
+</li>
+      <li><a href="api.html#roulette.player.Player.playing">playing (roulette.player.Player attribute)</a>
 
       <ul>
-        <li><a href="api.html#roulette.player.Passenger57.playing">(roulette.player.Passenger57 attribute)</a>
-</li>
-        <li><a href="api.html#roulette.player.Player.playing">(roulette.player.Player attribute)</a>
-</li>
         <li><a href="api.html#roulette.player.Player1326.playing">(roulette.player.Player1326 attribute)</a>
 </li>
         <li><a href="api.html#roulette.player.PlayerCancellation.playing">(roulette.player.PlayerCancellation attribute)</a>
 </li>
-        <li><a href="api.html#roulette.player.RandomPlayer.playing">(roulette.player.RandomPlayer attribute)</a>
+        <li><a href="api.html#roulette.player.PlayerMartingale.playing">(roulette.player.PlayerMartingale attribute)</a>
+</li>
+        <li><a href="api.html#roulette.player.PlayerPassenger57.playing">(roulette.player.PlayerPassenger57 attribute)</a>
+</li>
+        <li><a href="api.html#roulette.player.PlayerRandom.playing">(roulette.player.PlayerRandom attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -273,8 +254,6 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#roulette.player.RandomPlayer">RandomPlayer (class in roulette.player)</a>
-</li>
       <li><a href="api.html#module-roulette.bin_builder">roulette.bin_builder (module)</a>
 </li>
   </ul></td>
@@ -289,14 +268,10 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#roulette.model.Simulator.session">session() (roulette.model.Simulator method)</a>
-</li>
-      <li><a href="api.html#roulette.player.SevenReds">SevenReds (class in roulette.player)</a>
+      <li><a href="api.html#roulette.model.Simulator">Simulator (class in roulette.model)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#roulette.model.Simulator">Simulator (class in roulette.model)</a>
-</li>
       <li><a href="api.html#roulette.model.Wheel.spin">spin() (roulette.model.Wheel method)</a>
 </li>
   </ul></td>
@@ -315,30 +290,28 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#roulette.model.Wheel">Wheel (class in roulette.model)</a>
 </li>
-      <li><a href="api.html#roulette.player.Martingale.win">win() (roulette.player.Martingale method)</a>
+      <li><a href="api.html#roulette.player.Player.win">win() (roulette.player.Player method)</a>
 
       <ul>
-        <li><a href="api.html#roulette.player.Passenger57.win">(roulette.player.Passenger57 method)</a>
-</li>
-        <li><a href="api.html#roulette.player.Player.win">(roulette.player.Player method)</a>
-</li>
         <li><a href="api.html#roulette.player.Player1326.win">(roulette.player.Player1326 method)</a>
 </li>
         <li><a href="api.html#roulette.player.PlayerCancellation.win">(roulette.player.PlayerCancellation method)</a>
 </li>
         <li><a href="api.html#roulette.player.PlayerFibonacci.win">(roulette.player.PlayerFibonacci method)</a>
 </li>
-        <li><a href="api.html#roulette.player.RandomPlayer.win">(roulette.player.RandomPlayer method)</a>
+        <li><a href="api.html#roulette.player.PlayerMartingale.win">(roulette.player.PlayerMartingale method)</a>
+</li>
+        <li><a href="api.html#roulette.player.PlayerPassenger57.win">(roulette.player.PlayerPassenger57 method)</a>
+</li>
+        <li><a href="api.html#roulette.player.PlayerRandom.win">(roulette.player.PlayerRandom method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#roulette.model.Bet.win_amount">win_amount() (roulette.model.Bet method)</a>
-
-      <ul>
-        <li><a href="api.html#roulette.model.Outcome.win_amount">(roulette.model.Outcome method)</a>
+      <li><a href="api.html#roulette.model.Bet.win_amount">win_amount (roulette.model.Bet attribute)</a>
 </li>
-      </ul></li>
+      <li><a href="api.html#roulette.model.Outcome.win_amount">win_amount() (roulette.model.Outcome method)</a>
+</li>
   </ul></td>
 </tr></table>
 

@@ -5,6 +5,11 @@ from . import model
 from .model import Outcome
 
 
+def get_outcome(name):
+    """Return an outcome given a name."""
+    return create_wheel().all_outcomes.get(name)
+
+
 def create_wheel():
     """Populate the bins in wheel with outcomes."""
     wheel = model.Wheel()

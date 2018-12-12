@@ -1,1 +1,3 @@
-{}
+{
+  "test_table.py::test_table_bets_is_valid_invalid_under_min": true
+}
