@@ -1,6 +1,0 @@
-{
-  "test_bin.py": true, 
-  "test_outcome.py": true, 
-  "test_table.py": true, 
-  "test_wheel.py": true
-}
