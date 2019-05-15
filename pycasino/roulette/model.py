@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """A collection of classes to represent the game of roulette.
 
@@ -7,9 +7,10 @@ by Steven Lott.
 
 """
 import random
-import inspect
+import copy
 
 
+# TODO: consider using a dataclass instead (python 3.7 only)
 class Outcome:
     """Represents an outcome of a spin of a wheel in roulette.
 
@@ -33,17 +34,17 @@ class Outcome:
         return amount * self.odds
 
     def __eq__(self, other):
-        return self.name == other.name
-
-    def __ne__(self, other):
-        return self.name != other.name
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        else:
+            return False
 
     def __hash__(self):
         """Make hash of name default for placing object in sets and dicts."""
         return hash(self.name)
 
     def __str__(self):
-        return "{} ({}:1)".format(self.name, self.odds)
+        return f"{self.name} ({self.odds}:1)"
 
     def __repr__(self):
         return f"{type(self).__name__}({self.name!r}, {self.odds!r})"
@@ -202,6 +203,7 @@ class Game:
             self.table.clear_bets()
             player._winners = winning_bin.outcomes
             player.rounds -= 1
+        self.table.clear_bets()
 
     def __repr__(self):
         return f"{type(self).__name__}({self.table!r}, {self.wheel!r})"
@@ -221,36 +223,21 @@ class Simulator:
     """
 
     def __init__(self, game, player):
+
         self.game = game
         # This player will be used to produce fresh players
-        self._original_player = player
+        self._original_player = copy.deepcopy(player)
         self.player = player
         self.samples = 50
         self.durations = list()
         self.maxima = list()
 
     def _recreate_player(self):
-        """Create a duplicate of the original player.
-
-        TODO: This code might be brittle.  Rethink it.
-        It depends on the player creating attributes that
-        match its arguments.
-
-        Check for way to use deepcopy.
-
-        Another option would be to pass in the player class (not instance)
-        and instantiate it within this class.  But then you would also need
-        to gather the args for the Player.
-
-        """
-        player_class = self._original_player.__class__
-        player_args = inspect.getargspec(self._original_player.__init__)[0][1:]
-        args = {
-            arg: getattr(self._original_player, arg)
-            for arg
-            in player_args
-        }
-        return player_class(**args)
+        """Create a duplicate of the original player."""
+        plr_copy = copy.deepcopy(self._original_player)
+        # IMPORTANT: the table in Player must be the same object in Game
+        plr_copy.table = self.game.table
+        return plr_copy
 
     def _session(self):
         """Execute a single game session."""
@@ -266,7 +253,7 @@ class Simulator:
         for _ in range(self.samples):
             stakes = self._session()
             self.maxima.append(max(stakes))
-            self.durations.append(len(stakes))
+            self.durations.append(len(stakes) - 1) # -1 because stakes includes starting stake
 
     def __repr__(self):
         return f"{type(self).__name__}({self.game!r}, {self.player!r})"
