@@ -41,6 +41,7 @@ class Outcome:
 
     def __hash__(self):
         """Make hash of name default for placing object in sets and dicts."""
+        # TODO: Hashable objects are supposed to be immutable!
         return hash(self.name)
 
     def __str__(self):
