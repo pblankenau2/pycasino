@@ -1,5 +1,5 @@
 ========
-PyCasino
+pycasino
 ========
 
 |version| |build| |codecov|
@@ -13,3 +13,7 @@ TODO
 Installation
 ------------
 TODO
+
+Attributions
+------------
+General code design inspired from the book Building Skills in Object Oriented Programming by Steven Lott.
