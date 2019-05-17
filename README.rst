@@ -16,4 +16,4 @@ TODO
 
 Attributions
 ------------
-General code design inspired from the book Building Skills in Object Oriented Programming by Steven Lott.
+General code design inspired by the book Building Skills in Object Oriented Programming by Steven Lott.

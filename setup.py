@@ -20,10 +20,13 @@ AUTHOR = 'Philip Blankenau'
 REQUIRES_PYTHON = '>=3.6.0'
 VERSION = '0.1.0'
 
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+
 # What packages are required for this module to be executed?
-REQUIRED = [
-    # 'requests', 'maya', 'records',
-]
+REQUIRED = read('requirements.txt').splitlines()
+REQUIRED_TEST = read('requirements_test.txt').splitlines()
 
 # What packages are optional?
 EXTRAS = {
@@ -111,6 +114,7 @@ setup(
     #     'console_scripts': ['mycli=mymodule:cli'],
     # },
     install_requires=REQUIRED,
+    tests_require=REQUIRED_TEST,
     extras_require=EXTRAS,
     include_package_data=True,
     license='MIT',
