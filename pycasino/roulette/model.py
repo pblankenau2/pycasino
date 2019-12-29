@@ -48,7 +48,7 @@ class Outcome:
         return f"{self.name} ({self.odds}:1)"
 
     def __repr__(self):
-        return f"{type(self).__name__}({self.name!r}, {self.odds!r})"
+        return self.__class__.__qualname__ + f"({self.name!r}, {self.odds!r})"
 
 
 class Bin:
@@ -63,7 +63,7 @@ class Bin:
         return self
 
     def __repr__(self):
-        return f"{type(self).__name__}({self.outcomes!r})"
+        return self.__class__.__qualname__ + f"({self.outcomes!r})"
 
 
 class Wheel:
@@ -83,7 +83,7 @@ class Wheel:
     def add_outcome(self, bin_number, outcome):
         """Add an outcome to the bin with the bin_number index."""
         self.bins[bin_number].add(outcome)
-        self.all_outcomes[outcome.name] = outcome
+        self.all_outcomes[outcome.name] = outcome 
 
     def spin(self):
         """Return a randomly selected Bin."""
@@ -91,7 +91,7 @@ class Wheel:
         return self.random_num_gen.choice(self.bins)
 
     def __repr__(self):
-        return f"{type(self).__name__}()"
+        return self.__class__.__qualname__ + "()"
 
 
 class Bet:
@@ -122,7 +122,8 @@ class Bet:
         return "{:.2f} on {}".format(self.amount_bet, self.outcome)
 
     def __repr__(self):
-        return f"{type(self).__name__}({self.amount_bet:.2f}, {self.outcome!r})"
+        return (self.__class__.__qualname__
+            + f"({self.amount_bet:.2f}, {self.outcome!r})")
 
 
 class Table:
@@ -174,7 +175,7 @@ class Table:
         return str(self.bets)
 
     def __repr__(self):
-        return f"{type(self).__name__}({self.limit:.2f}, {self.bets!r})"
+        return self.__class__.__qualname__ + f"({self.limit:.2f}, {self.bets!r})"
 
 
 class Game:
@@ -189,12 +190,12 @@ class Game:
     def __init__(self, table, wheel):
         self.table = table
         self.wheel = wheel
-
+    
     def cycle(self, player):
         """Execute a single cycle of play with a given :class:`Player`."""
         if player.playing:
-            player.place_bets()
-            self.table.is_valid()
+            player.place_bets(self.table)
+            self.table.is_valid()  # TODO: Won't this raise an unhandled exception?
             winning_bin = self.wheel.spin()
             for bet in self.table:
                 if bet.outcome in winning_bin.outcomes:
@@ -202,15 +203,11 @@ class Game:
                 else:
                     player.lose()
             self.table.clear_bets()
-            player._winners = winning_bin.outcomes
-            player.rounds -= 1
+            player.track_last_winning_outcomes(winning_bin.outcomes) # TODO: Is there a better way?
         self.table.clear_bets()
 
     def __repr__(self):
-        return f"{type(self).__name__}({self.table!r}, {self.wheel!r})"
-
-
-# TODO: Create a Game factory function.
+        return self.__class__.__qualname__ + f"({self.table!r}, {self.wheel!r})"
 
 
 class Simulator:
@@ -222,7 +219,8 @@ class Simulator:
     :type player: Player
 
     """
-
+    # TODO: Maybe we need a player factory.  Then maybe we wouldn't need to pass in a fully initialized player.
+    # We could instead pass in the class of the player or it's name and a configuration and the player would be created.
     def __init__(self, game, player):
 
         self.game = game
@@ -236,8 +234,6 @@ class Simulator:
     def _recreate_player(self):
         """Create a duplicate of the original player."""
         plr_copy = copy.deepcopy(self._original_player)
-        # IMPORTANT: the table in Player must be the same object in Game
-        plr_copy.table = self.game.table
         return plr_copy
 
     def _session(self):
@@ -257,7 +253,7 @@ class Simulator:
             self.durations.append(len(stakes) - 1) # -1 because stakes includes starting stake
 
     def __repr__(self):
-        return f"{type(self).__name__}({self.game!r}, {self.player!r})"
+        return self.__class__.__qualname__ + f"({self.game!r}, {self.player!r})"
 
 
 class InvalidBet(Exception):
