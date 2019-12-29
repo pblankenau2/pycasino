@@ -9,9 +9,7 @@ from .context import roulette
 
 @pytest.fixture
 def playersevenreds_regular():
-    table = roulette.model.Table(300)
     return roulette.player.PlayerSevenReds(
-        table=table,
         stake=20,
         rounds=50,
         base_bet_amount=5

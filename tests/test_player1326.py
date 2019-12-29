@@ -7,9 +7,7 @@ from .context import roulette
 
 @pytest.fixture
 def player1326_not_playing_because_rounds():
-    table = roulette.model.Table(300)
     return roulette.player.Player1326(
-        table=table,
         stake=20,
         rounds=0,
         base_bet_amount=5
@@ -18,9 +16,7 @@ def player1326_not_playing_because_rounds():
 
 @pytest.fixture
 def player1326_not_playing_because_stake():
-    table = roulette.model.Table(300)
     return roulette.player.Player1326(
-        table=table,
         stake=10,
         rounds=350,
         base_bet_amount=10
@@ -29,9 +25,7 @@ def player1326_not_playing_because_stake():
 
 @pytest.fixture
 def player1326_regular():
-    table = roulette.model.Table(300)
     return roulette.player.Player1326(
-        table=table,
         stake=100,
         rounds=350,
         base_bet_amount=10

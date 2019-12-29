@@ -7,9 +7,7 @@ from .context import roulette
 
 @pytest.fixture
 def playerfibonacci_regular():
-    table = roulette.model.Table(300)
     return roulette.player.PlayerFibonacci(
-        table=table,
         stake=100,
         rounds=350,
         base_bet_amount=10

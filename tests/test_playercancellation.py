@@ -7,9 +7,7 @@ from .context import roulette
 
 @pytest.fixture
 def playercancellation_not_playing_because_rounds():
-    table = roulette.model.Table(300)
     return roulette.player.PlayerCancellation(
-        table=table,
         stake=20,
         rounds=0,
     )
@@ -17,18 +15,14 @@ def playercancellation_not_playing_because_rounds():
 
 @pytest.fixture
 def playercancellation_not_playing_because_stake():
-    table = roulette.model.Table(300)
     return roulette.player.PlayerCancellation(
-        table=table,
         stake=5,
         rounds=350,
     )
 
 @pytest.fixture
 def playercancellation_not_playing_because_sequence():
-    table = roulette.model.Table(300)
     player = roulette.player.PlayerCancellation(
-        table=table,
         stake=10,
         rounds=350,
     )
@@ -37,9 +31,7 @@ def playercancellation_not_playing_because_sequence():
 
 @pytest.fixture
 def playercancellation_regular():
-    table = roulette.model.Table(300)
     return roulette.player.PlayerCancellation(
-        table=table,
         stake=100,
         rounds=350,
     )

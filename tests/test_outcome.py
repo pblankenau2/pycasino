@@ -25,6 +25,6 @@ def test_outcome_hash_eq():
     assert hash(outcome1) == hash(outcome2)
 
 def test_outcome_from_name():
-    outcome_from_name = roulette.bin_builder.get_outcome('Red')
+    outcome_from_name = roulette.wheel_builder.get_outcome('Red')
     assert outcome_from_name == roulette.model.Outcome('Red', 1)
     

@@ -21,6 +21,5 @@ def test_wheel_add_outcome(wheel1):
 
 def test_wheel_random_bin(wheel1):
     """Tests the wheel's random bin selection."""
-    wheel1.random_num_gen = Mock()
-    wheel1.random_num_gen.choice = Mock(return_value="bin1")
-    assert wheel1.spin() == "bin1"
+    assert wheel1.spin() in wheel1.bins
+    

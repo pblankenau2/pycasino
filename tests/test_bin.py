@@ -19,9 +19,6 @@ def bin2():
     bin_.add(outcome1)
     return bin_
 
-def test_bin_for_duplicates(bin1, bin2):
-    assert bin1.outcomes == bin2.outcomes
-
 def test_bin_add(bin2):
     bin3 = bin2.add(roulette.model.Outcome('Black', 1))
     bin_to_match = roulette.model.Bin()
