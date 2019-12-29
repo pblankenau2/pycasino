@@ -2,8 +2,30 @@
 # -*- coding: utf-8 -*-
 import abc
 import random
+import inspect
 from . import model
-from . import bin_builder
+from . import wheel_builder
+
+
+def delegates(to=None, keep=False):
+    """Decorator: replace `**kwargs` in signature with params from `to`
+    
+    Taken from the fast.ai blog post by Jeremy Howard dated 06 Aug 2019.
+    
+    """
+    def _f(f):
+        if to is None: to_f,from_f = f.__base__.__init__,f.__init__
+        else:          to_f,from_f = to,f
+        sig = inspect.signature(from_f)
+        sigd = dict(sig.parameters)
+        k = sigd.pop('kwargs')
+        s2 = {k:v for k,v in inspect.signature(to_f).parameters.items()
+              if v.default != inspect.Parameter.empty and k not in sigd}
+        sigd.update(s2)
+        if keep: sigd['kwargs'] = k
+        from_f.__signature__ = sig.replace(parameters=sigd.values())
+        return f
+    return _f
 
 
 class Player(abc.ABC):
@@ -18,15 +40,36 @@ class Player(abc.ABC):
 
     """
 
-    def __init__(self, table, stake=100, rounds=250):
-        self.table = table
+    def __init__(self, stake=100.0, base_bet_amount=10.0, rounds=250):
         self.stake = float(stake)
+        self.base_bet_amount = float(base_bet_amount)
         self.rounds = rounds
         self._winners = list()
 
-    @abc.abstractproperty
+    def _post_init(self, **kwargs):
+        """This is a hook into the superclass init method.
+        
+        This is a technique to avoid undue coupling between
+        a parent and child class.  It lets you subclass without
+        worrying about overriding __init__, and calling super
+        with the correct args. It only works with a single
+        level of inheritence.
+        """
+        pass
+
+    @property
+    def bet_amount(self):
+        return self.base_bet_amount
+
+    @property
     def playing(self):
         """Returns True while player is still playing."""
+        if self.stake <= self.bet_amount:
+            return False
+        elif self.rounds <= 0:
+            return False
+        else:
+            return True
 
     @abc.abstractmethod
     def _determine_bets(self):
@@ -35,58 +78,60 @@ class Player(abc.ABC):
         :returns: List of bets.
         :rtype: list
         """
+        pass
 
-    def place_bets(self):
+    def place_bets(self, table):
         """Update the table with bets."""
         bets = list(self._determine_bets())
         for bet in bets:
-            self.table.place_bet(bet)
+            table.place_bet(bet)
             self.stake -= bet.lose_amount
 
-    @abc.abstractmethod
+    def track_last_winning_outcomes(self, outcomes):
+        self._winners.append(*outcomes)
+
+    def win_hook(self):
+        pass
+
     def win(self, bet):
         """Performs tasks when a bet is won."""
+        self.rounds -= 1
+        self.stake += bet.win_amount
+        self.win_hook()
 
-    @abc.abstractmethod
+    def lose_hook(self):
+        pass
+
     def lose(self):
         """Performs tasks when a bet is lost."""
+        self.rounds -= 1
+        self.lose_hook()
 
-
-class PlayerPassenger57(Player):
-    """A player that only bets on black.
+# TODO: should this be a fixture in a testing module?
+@delegates()
+class PlayerDouble(Player):
+    """This is a simple subclass of Player.
+    
+    A player that only bets on black. This
+    class allows for the testing of the
+    baseclass methods.
 
     :param table: A table to play on.
     :type table: Table
     :param stake: An intial pool of money to bet with.
     :type stake: float
-    :param bet_amount: An amount to place on each bet.
-    :type bet_amount: float
 
     """
-    def __init__(self, table, stake, rounds, bet_amount):
-        super().__init__(table, stake, rounds)
-        self.black = bin_builder.get_outcome('Black')
-        self.bet_amount = bet_amount
 
-    @property
-    def playing(self):
-        if self.stake <= self.bet_amount:
-            return False
-        elif self.rounds <= 0:
-            return False
-        else:
-            return True
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.black = wheel_builder.get_outcome('Black')
 
     def _determine_bets(self):
-        return [model.Bet(self.bet_amount, self.black)]
-
-    def win(self, bet):
-        self.stake += bet.win_amount
-
-    def lose(self):
-        pass
+        return [model.Bet(self.base_bet_amount, self.black)]
 
 
+@delegates()
 class PlayerMartingale(Player):
     """A player class using the Martingale betting strategy.
 
@@ -94,39 +139,28 @@ class PlayerMartingale(Player):
     and resets their bet to a base amount on each win.
 
     """
-
-    def __init__(self, table, stake, rounds, base_bet_amount):
-        super().__init__(table, stake, rounds)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.loss_count = 0
-        self.base_bet_amount = base_bet_amount
 
     # TODO: should we bet the remaining stake if the stake is under the strategy bet amount?
     @property
     def bet_amount(self):
         return self.base_bet_amount * (2.0 ** self.loss_count)
 
-    @property
-    def playing(self):
-        if self.stake <= self.bet_amount:
-            return False
-        elif self.rounds <= 0:
-            return False
-        else:
-            return True
-
     def _determine_bets(self):
-        outcome = bin_builder.get_outcome('Black')
+        outcome = wheel_builder.get_outcome('Black')
         bet = [model.Bet(self.bet_amount, outcome)]
         return bet
 
-    def win(self, bet):
-        self.stake += bet.win_amount
+    def win_hook(self):
         self.loss_count = 0
 
-    def lose(self):
+    def lose_hook(self):
         self.loss_count += 1
 
 
+@delegates()
 class PlayerSevenReds(PlayerMartingale):
     """SevenReds is a Martingale player who places bets in Roulette.
 
@@ -146,32 +180,38 @@ class PlayerSevenReds(PlayerMartingale):
 
     """
 
-    def __init__(self, table, stake, rounds, base_bet_amount):
-        super().__init__(table, stake, rounds, base_bet_amount)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self._red_count = 7
-        self._red = bin_builder.get_outcome('Red')
-        self._black = bin_builder.get_outcome('Black')
-        self._waiting = True
+        self._red = wheel_builder.get_outcome('Red')
+        self._black = wheel_builder.get_outcome('Black')
+
+    @property
+    def _waiting(self):
+        return self._red_count != 0
 
     def _determine_bets(self):
         if self._waiting:
             if self._red in self._winners:
                 self._red_count -= 1
-            elif self._black in self._winners:
+            else:
                 self._red_count = 7
-            if self._red_count == 0:
-                self._waiting = False
-            return [model.Bet(0.0, self._black)]
+            return [model.Bet(0.0, self._black)]  # TODO: It would be nice if the player didn't have to bet every time.
         else:
             bet = [model.Bet(self.bet_amount, self._black)]
             return bet
 
+    def lose_hook(self):
+        if self._waiting:
+            self.loss_count = 0 # Keeps bets from inflating during wait.
+        else:
+            self.loss_count += 1
 
+
+@delegates()
 class PlayerRandom(Player):
     """A player who bets on random outcomes.
 
-    :param table: A table to play on.
-    :type table: Table
     :param stake: An intial pool of money to bet with.
     :type stake: float
     :param bet_amount: An amount to bet on each bet.
@@ -179,31 +219,16 @@ class PlayerRandom(Player):
 
     """
 
-    def __init__(self, table, stake, rounds, bet_amount):
-        super().__init__(table, stake, rounds)
-        self.bet_amount = bet_amount
-        self._random_number_generator = random.Random()
-        self._outcomes = list(bin_builder.create_wheel().all_outcomes.values())
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
-    @property
-    def playing(self):
-        if self.stake <= self.bet_amount:
-            return False
-        elif self.rounds <= 0:
-            return False
-        else:
-            return True
+        self._random_number_generator = random.Random()
+        self._outcomes = list(wheel_builder.create_wheel().all_outcomes.values())
 
     def _determine_bets(self):
         outcome_index = self._random_number_generator.randrange(0, len(self._outcomes))
-        bet = [model.Bet(self.bet_amount, self._outcomes[outcome_index])]
+        bet = [model.Bet(self.base_bet_amount, self._outcomes[outcome_index])]
         return bet
-
-    def win(self, bet):
-        self.stake += bet.win_amount
-
-    def lose(self):
-        pass # Though we often pass, this method is useful to have in the interface.
 
 
 class Player1326StateAlternate:
@@ -320,12 +345,12 @@ class Player1326ThreeWins(Player1326State):
         return Player1326NoWins(self.player)
 
 
+@delegates()
 class Player1326(Player):
 
-    def __init__(self, table, stake, rounds, base_bet_amount): # TODO should we have base_bet_amount be the same name for all Players?
-        super().__init__(table, stake, rounds)
-        self.base_bet_amount = base_bet_amount
-        self.outcome = bin_builder.get_outcome('Black')
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.outcome = wheel_builder.get_outcome('Black')
         self.state = Player1326StateAlternate._no_wins(self)
 
     @property
@@ -341,21 +366,20 @@ class Player1326(Player):
     def _determine_bets(self):
         return [self.state.current_bet]
 
-    def win(self, bet):
-        self.stake += bet.win_amount
+    def win_hook(self):
         self.state = self.state.next_won()
 
-    def lose(self):
+    def lose_hook(self):
         self.state = self.state.next_lost()
 
 
 class PlayerCancellation(Player):
     """Player that uses the cancellation betting strategy."""
 
-    def __init__(self, table, stake, rounds):
-        super().__init__(table, stake, rounds)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.sequence = list(range(1, 7))
-        self.outcome = bin_builder.get_outcome('Black')
+        self.outcome = wheel_builder.get_outcome('Black')
 
     @property
     def playing(self):
@@ -374,12 +398,11 @@ class PlayerCancellation(Player):
     def _determine_bets(self):
         return [model.Bet(self.bet_amount, self.outcome)]
 
-    def win(self, bet):
-        self.stake += bet.win_amount
+    def win_hook(self):
         self.sequence.pop(0)
         self.sequence.pop(-1)
 
-    def lose(self):
+    def lose_hook(self):
         self.sequence.append(self.bet_amount)
 
     @property
@@ -387,6 +410,7 @@ class PlayerCancellation(Player):
         return self.sequence[-1] + self.sequence[0]
 
 
+@delegates()
 class PlayerFibonacci(PlayerMartingale):
     """Player that uses the Fibonacci betting system.
 
@@ -398,9 +422,8 @@ class PlayerFibonacci(PlayerMartingale):
 
     """
 
-    def __init__(self, table, stake, rounds, base_bet_amount):
-        super().__init__(table, stake, rounds, base_bet_amount)
-        self.base_bet_amount
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.current = 1
         self.previous = 0
 
@@ -408,10 +431,9 @@ class PlayerFibonacci(PlayerMartingale):
     def bet_amount(self):
         return self.current * self.base_bet_amount
 
-    def win(self, bet):
-        self.stake += bet.win_amount
+    def win_hook(self):
         self.current = 1
         self.previous = 0
 
-    def lose(self):
+    def lose_hook(self):
         self.current, self.previous = (self.current + self.previous), self.current
