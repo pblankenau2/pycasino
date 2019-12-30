@@ -3,7 +3,7 @@
 
 import random
 import pytest
-from mock import Mock
+from unittest.mock import Mock
 from .context import roulette
 
 

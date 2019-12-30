@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from mock import Mock, MagicMock, PropertyMock
+from unittest.mock import Mock, MagicMock, PropertyMock
 from .context import roulette
 
 
