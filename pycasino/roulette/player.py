@@ -88,7 +88,7 @@ class Player(abc.ABC):
             self.stake -= bet.lose_amount
 
     def track_last_winning_outcomes(self, outcomes):
-        self._winners.append(*outcomes)
+        [self._winners.append(outcome) for outcome in outcomes]
 
     def win_hook(self):
         pass
@@ -146,7 +146,7 @@ class PlayerMartingale(Player):
     # TODO: should we bet the remaining stake if the stake is under the strategy bet amount?
     @property
     def bet_amount(self):
-        return self.base_bet_amount * (2.0 ** self.loss_count)
+        return self.base_bet_amount * (2.0 ** self.loss_count) # TODO: make sure bet_amount is less than table maximum?
 
     def _determine_bets(self):
         outcome = wheel_builder.get_outcome('Black')

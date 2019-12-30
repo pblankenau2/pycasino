@@ -57,5 +57,9 @@ def test_bet_amount(player_regular):
     assert player_regular.bet_amount == player_regular.base_bet_amount
 
 def test_track_last_winning_outcomes(player_regular):
-    player_regular.track_last_winning_outcomes([roulette.wheel_builder.get_outcome('Black')])
+    player_regular.track_last_winning_outcomes([
+        roulette.wheel_builder.get_outcome('Black'),
+        roulette.wheel_builder.get_outcome('Red')
+    ])
+    # Add more than one outcome.
     assert player_regular._winners[0] == roulette.wheel_builder.get_outcome('Black')
