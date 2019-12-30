@@ -12,7 +12,7 @@ def get_outcome(name):
 
 def create_wheel():
     """Populate the bins in wheel with outcomes."""
-    wheel = model.Wheel()
+    wheel = model._Wheel()
     _add_straight_bets(wheel)
     _add_split_bets(wheel)
     _add_column_bets(wheel)

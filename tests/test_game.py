@@ -14,7 +14,7 @@ def mock_player():
 @pytest.fixture
 def mock_wheel():
     # TODO: This is really a stub not a mock?
-    wheel = Mock(spec=roulette.model.Wheel)
+    wheel = Mock(spec=roulette.model._Wheel)
     bin_ = Mock(spec=roulette.model.Bin)
     # TODO: could you patch outcomes?
     bin_.outcomes = frozenset([roulette.wheel_builder.get_outcome('Black')])

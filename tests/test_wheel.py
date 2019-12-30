@@ -9,7 +9,7 @@ from .context import roulette
 
 @pytest.fixture
 def wheel1():
-    return roulette.model.Wheel()
+    return roulette.model._Wheel()
 
 
 def test_wheel_add_outcome(wheel1):

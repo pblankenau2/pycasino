@@ -66,7 +66,7 @@ class Bin:
         return self.__class__.__qualname__ + f"({self.outcomes!r})"
 
 
-class Wheel:
+class _Wheel:
     """Represents a roulette wheel.  Contains :class:`Bin`s."""
 
     def __init__(self):
@@ -227,7 +227,6 @@ class Simulator:
         # This player will be used to produce fresh players
         self._original_player = copy.deepcopy(player)
         self.player = player
-        self.samples = 50
         self.durations = list()
         self.maxima = list()
 
@@ -245,9 +244,9 @@ class Simulator:
             stake_vals.append(self.player.stake)
         return stake_vals
 
-    def gather(self):
-        """Execute number of game sessions in self.samples."""
-        for _ in range(self.samples):
+    def gather(self, samples):
+        """Execute n samples of game sessions."""
+        for _ in range(samples):
             stakes = self._session()
             self.maxima.append(max(stakes))
             self.durations.append(len(stakes) - 1) # -1 because stakes includes starting stake
