@@ -7,6 +7,28 @@ from . import model
 from . import wheel_builder
 
 
+# Players accessible via the CLI
+REGISTERED_PLAYERS = {}
+
+
+def register_player(cli_name):
+    """Registers the class that is wrapped so the CLI can see it.
+
+    Registration can be useful when you need a mapping between
+    a classes name as a string perhaps coming from user input
+    and the class itself.  This can be done with decorators
+    (like this one) or it can be done using a metaclass.  The
+    decorators allow you to leave test doubles undecorated while
+    the metaclass version doesn't.  See the book Effective Python
+    Item 34 for how to do this with a metaclass. 
+    
+    """
+    def wraps(cls):
+        REGISTERED_PLAYERS[cli_name] = cls
+        return cls
+    return wraps
+        
+
 def delegates(to=None, keep=False):
     """Decorator: replace `**kwargs` in signature with params from `to`
     
@@ -107,6 +129,7 @@ class Player(abc.ABC):
         self.rounds -= 1
         self.lose_hook()
 
+
 # TODO: should this be a fixture in a testing module?
 @delegates()
 class PlayerDouble(Player):
@@ -130,7 +153,7 @@ class PlayerDouble(Player):
     def _determine_bets(self):
         return [model.Bet(self.base_bet_amount, self.black)]
 
-
+@register_player(cli_name='martingale')
 @delegates()
 class PlayerMartingale(Player):
     """A player class using the Martingale betting strategy.
@@ -139,6 +162,7 @@ class PlayerMartingale(Player):
     and resets their bet to a base amount on each win.
 
     """
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.loss_count = 0
@@ -159,7 +183,7 @@ class PlayerMartingale(Player):
     def lose_hook(self):
         self.loss_count += 1
 
-
+@register_player(cli_name='seven-reds')
 @delegates()
 class PlayerSevenReds(PlayerMartingale):
     """SevenReds is a Martingale player who places bets in Roulette.
@@ -207,7 +231,7 @@ class PlayerSevenReds(PlayerMartingale):
         else:
             self.loss_count += 1
 
-
+@register_player(cli_name='random')
 @delegates()
 class PlayerRandom(Player):
     """A player who bets on random outcomes.
@@ -344,7 +368,7 @@ class Player1326ThreeWins(Player1326State):
     def next_won(self):
         return Player1326NoWins(self.player)
 
-
+@register_player(cli_name='1326')
 @delegates()
 class Player1326(Player):
 
@@ -372,7 +396,7 @@ class Player1326(Player):
     def lose_hook(self):
         self.state = self.state.next_lost()
 
-
+@register_player(cli_name='cancellation')
 class PlayerCancellation(Player):
     """Player that uses the cancellation betting strategy."""
 
@@ -409,7 +433,7 @@ class PlayerCancellation(Player):
     def bet_amount(self):
         return self.sequence[-1] + self.sequence[0]
 
-
+@register_player(cli_name='fibonacci')
 @delegates()
 class PlayerFibonacci(PlayerMartingale):
     """Player that uses the Fibonacci betting system.
