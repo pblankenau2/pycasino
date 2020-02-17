@@ -23,10 +23,10 @@ def register_player(cli_name):
     Item 34 for how to do this with a metaclass. 
     
     """
-    def wraps(cls):
+    def wrapper(cls):
         REGISTERED_PLAYERS[cli_name] = cls
         return cls
-    return wraps
+    return wrapper
         
 
 def delegates(to=None, keep=False):
