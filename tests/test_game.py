@@ -17,7 +17,7 @@ def mock_wheel():
     wheel = Mock(spec=roulette.model._Wheel)
     bin_ = Mock(spec=roulette.model.Bin)
     # TODO: could you patch outcomes?
-    bin_.outcomes = frozenset([roulette.wheel_builder.get_outcome('Black')])
+    bin_.outcomes = frozenset([roulette.wheel_builder.get_outcome("Black")])
     wheel.spin.return_value = bin_
     return wheel
 
@@ -26,16 +26,13 @@ def mock_wheel():
 def mock_table():
     table = MagicMock(spec=roulette.model.Table)
     bet = Mock(spec=roulette.model.Bet)
-    bet.outcome = roulette.wheel_builder.get_outcome('Black')
+    bet.outcome = roulette.wheel_builder.get_outcome("Black")
     table.bets = [bet]
     table.__iter__.return_value = table.bets
     return table
 
 
-def test_game_cycle(
-        mock_player,
-        mock_table,
-        mock_wheel):
+def test_game_cycle(mock_player, mock_table, mock_wheel):
     """Tests that the game's cycle method works.
 
     The focus is testing any outgoing messages that
@@ -49,6 +46,8 @@ def test_game_cycle(
 
     mock_player.place_bets.assert_called_with(mock_table)
     mock_player.win.assert_called_with(mock_table.bets[0])
-    mock_player.track_last_winning_outcomes.assert_called_with(mock_wheel.spin().outcomes)
+    mock_player.track_last_winning_outcomes.assert_called_with(
+        mock_wheel.spin().outcomes
+    )
     mock_table.clear_bets.assert_called()
 

@@ -23,11 +23,13 @@ def register_player(cli_name):
     Item 34 for how to do this with a metaclass. 
     
     """
+
     def wrapper(cls):
         REGISTERED_PLAYERS[cli_name] = cls
         return cls
+
     return wrapper
-        
+
 
 def delegates(to=None, keep=False):
     """Decorator: replace `**kwargs` in signature with params from `to`
@@ -35,18 +37,26 @@ def delegates(to=None, keep=False):
     Taken from the fast.ai blog post by Jeremy Howard dated 06 Aug 2019.
     
     """
+
     def _f(f):
-        if to is None: to_f,from_f = f.__base__.__init__,f.__init__
-        else:          to_f,from_f = to,f
+        if to is None:
+            to_f, from_f = f.__base__.__init__, f.__init__
+        else:
+            to_f, from_f = to, f
         sig = inspect.signature(from_f)
         sigd = dict(sig.parameters)
-        k = sigd.pop('kwargs')
-        s2 = {k:v for k,v in inspect.signature(to_f).parameters.items()
-              if v.default != inspect.Parameter.empty and k not in sigd}
+        k = sigd.pop("kwargs")
+        s2 = {
+            k: v
+            for k, v in inspect.signature(to_f).parameters.items()
+            if v.default != inspect.Parameter.empty and k not in sigd
+        }
         sigd.update(s2)
-        if keep: sigd['kwargs'] = k
+        if keep:
+            sigd["kwargs"] = k
         from_f.__signature__ = sig.replace(parameters=sigd.values())
         return f
+
     return _f
 
 
@@ -148,12 +158,13 @@ class PlayerDouble(Player):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.black = wheel_builder.get_outcome('Black')
+        self.black = wheel_builder.get_outcome("Black")
 
     def _determine_bets(self):
         return [model.Bet(self.base_bet_amount, self.black)]
 
-@register_player(cli_name='martingale')
+
+@register_player(cli_name="martingale")
 @delegates()
 class PlayerMartingale(Player):
     """A player class using the Martingale betting strategy.
@@ -170,10 +181,12 @@ class PlayerMartingale(Player):
     # TODO: should we bet the remaining stake if the stake is under the strategy bet amount?
     @property
     def bet_amount(self):
-        return self.base_bet_amount * (2.0 ** self.loss_count) # TODO: make sure bet_amount is less than table maximum?
+        return self.base_bet_amount * (
+            2.0 ** self.loss_count
+        )  # TODO: make sure bet_amount is less than table maximum?
 
     def _determine_bets(self):
-        outcome = wheel_builder.get_outcome('Black')
+        outcome = wheel_builder.get_outcome("Black")
         bet = [model.Bet(self.bet_amount, outcome)]
         return bet
 
@@ -183,7 +196,8 @@ class PlayerMartingale(Player):
     def lose_hook(self):
         self.loss_count += 1
 
-@register_player(cli_name='seven-reds')
+
+@register_player(cli_name="seven-reds")
 @delegates()
 class PlayerSevenReds(PlayerMartingale):
     """SevenReds is a Martingale player who places bets in Roulette.
@@ -207,8 +221,8 @@ class PlayerSevenReds(PlayerMartingale):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._red_count = 7
-        self._red = wheel_builder.get_outcome('Red')
-        self._black = wheel_builder.get_outcome('Black')
+        self._red = wheel_builder.get_outcome("Red")
+        self._black = wheel_builder.get_outcome("Black")
 
     @property
     def _waiting(self):
@@ -220,18 +234,21 @@ class PlayerSevenReds(PlayerMartingale):
                 self._red_count -= 1
             else:
                 self._red_count = 7
-            return [model.Bet(0.0, self._black)]  # TODO: It would be nice if the player didn't have to bet every time.
+            return [
+                model.Bet(0.0, self._black)
+            ]  # TODO: It would be nice if the player didn't have to bet every time.
         else:
             bet = [model.Bet(self.bet_amount, self._black)]
             return bet
 
     def lose_hook(self):
         if self._waiting:
-            self.loss_count = 0 # Keeps bets from inflating during wait.
+            self.loss_count = 0  # Keeps bets from inflating during wait.
         else:
             self.loss_count += 1
 
-@register_player(cli_name='random')
+
+@register_player(cli_name="random")
 @delegates()
 class PlayerRandom(Player):
     """A player who bets on random outcomes.
@@ -274,8 +291,7 @@ class Player1326StateAlternate:
     @property
     def current_bet(self):
         return model.Bet(
-            self.player.base_bet_amount * self.bet_multiplier,
-            self.player.outcome
+            self.player.base_bet_amount * self.bet_multiplier, self.player.outcome
         )
 
     def next_won(self):
@@ -330,7 +346,6 @@ class Player1326State(abc.ABC):
 
 
 class Player1326NoWins(Player1326State):
-
     @property
     def current_bet(self):
         return model.Bet(self.player.base_bet_amount * 1, self.player.outcome)
@@ -340,7 +355,6 @@ class Player1326NoWins(Player1326State):
 
 
 class Player1326OneWins(Player1326State):
-
     @property
     def current_bet(self):
         return model.Bet(self.player.base_bet_amount * 3, self.player.outcome)
@@ -350,7 +364,6 @@ class Player1326OneWins(Player1326State):
 
 
 class Player1326TwoWins(Player1326State):
-
     @property
     def current_bet(self):
         return model.Bet(self.player.base_bet_amount * 2, self.player.outcome)
@@ -360,7 +373,6 @@ class Player1326TwoWins(Player1326State):
 
 
 class Player1326ThreeWins(Player1326State):
-
     @property
     def current_bet(self):
         return model.Bet(self.player.base_bet_amount * 6, self.player.outcome)
@@ -368,13 +380,13 @@ class Player1326ThreeWins(Player1326State):
     def next_won(self):
         return Player1326NoWins(self.player)
 
-@register_player(cli_name='1326')
+
+@register_player(cli_name="1326")
 @delegates()
 class Player1326(Player):
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.outcome = wheel_builder.get_outcome('Black')
+        self.outcome = wheel_builder.get_outcome("Black")
         self.state = Player1326StateAlternate._no_wins(self)
 
     @property
@@ -396,14 +408,15 @@ class Player1326(Player):
     def lose_hook(self):
         self.state = self.state.next_lost()
 
-@register_player(cli_name='cancellation')
+
+@register_player(cli_name="cancellation")
 class PlayerCancellation(Player):
     """Player that uses the cancellation betting strategy."""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.sequence = list(range(1, 7))
-        self.outcome = wheel_builder.get_outcome('Black')
+        self.outcome = wheel_builder.get_outcome("Black")
 
     @property
     def playing(self):
@@ -433,7 +446,8 @@ class PlayerCancellation(Player):
     def bet_amount(self):
         return self.sequence[-1] + self.sequence[0]
 
-@register_player(cli_name='fibonacci')
+
+@register_player(cli_name="fibonacci")
 @delegates()
 class PlayerFibonacci(PlayerMartingale):
     """Player that uses the Fibonacci betting system.

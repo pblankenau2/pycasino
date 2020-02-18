@@ -8,8 +8,7 @@ from .context import roulette
 @pytest.fixture
 def bet():
     return roulette.model.Bet(
-        amount=20,
-        outcome=roulette.wheel_builder.get_outcome('Red')
+        amount=20, outcome=roulette.wheel_builder.get_outcome("Red")
     )
 
 

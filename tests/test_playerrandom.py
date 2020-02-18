@@ -9,11 +9,7 @@ from .context import roulette
 
 @pytest.fixture
 def playerrandom_regular():
-    return roulette.player.PlayerRandom(
-        stake=100,
-        rounds=350,
-        base_bet_amount=10
-    )
+    return roulette.player.PlayerRandom(stake=100, rounds=350, base_bet_amount=10)
 
 
 def test__determine_bets(playerrandom_regular):
@@ -21,7 +17,7 @@ def test__determine_bets(playerrandom_regular):
     playerrandom_regular._random_number_generator.randrange.return_value = 0
     player_bet = playerrandom_regular._determine_bets()[0]
     assert player_bet.amount_bet == 10
-    assert player_bet.outcome == roulette.wheel_builder.get_outcome('Straight 0')
+    assert player_bet.outcome == roulette.wheel_builder.get_outcome("Straight 0")
 
 
 def test_win(playerrandom_regular):

@@ -7,17 +7,13 @@ from .context import roulette
 
 @pytest.fixture
 def playermartingale_regular():
-    return roulette.player.PlayerMartingale(
-        stake=100,
-        rounds=350,
-        base_bet_amount=10
-    )
+    return roulette.player.PlayerMartingale(stake=100, rounds=350, base_bet_amount=10)
 
 
 def test__determine_bets(playermartingale_regular):
     player_bet = playermartingale_regular._determine_bets()[0]
     assert player_bet.amount_bet == 10
-    assert player_bet.outcome == roulette.wheel_builder.get_outcome('Black')
+    assert player_bet.outcome == roulette.wheel_builder.get_outcome("Black")
 
 
 def test_bet_amount_on_win(playermartingale_regular):

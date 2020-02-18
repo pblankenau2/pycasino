@@ -83,7 +83,7 @@ class _Wheel:
     def add_outcome(self, bin_number, outcome):
         """Add an outcome to the bin with the bin_number index."""
         self.bins[bin_number].add(outcome)
-        self.all_outcomes[outcome.name] = outcome 
+        self.all_outcomes[outcome.name] = outcome
 
     def spin(self):
         """Return a randomly selected Bin."""
@@ -122,8 +122,9 @@ class Bet:
         return "{:.2f} on {}".format(self.amount_bet, self.outcome)
 
     def __repr__(self):
-        return (self.__class__.__qualname__
-            + f"({self.amount_bet:.2f}, {self.outcome!r})")
+        return (
+            self.__class__.__qualname__ + f"({self.amount_bet:.2f}, {self.outcome!r})"
+        )
 
 
 class Table:
@@ -190,7 +191,7 @@ class Game:
     def __init__(self, table, wheel):
         self.table = table
         self.wheel = wheel
-    
+
     def cycle(self, player):
         """Execute a single cycle of play with a given :class:`Player`."""
         if player.playing:
@@ -203,7 +204,9 @@ class Game:
                 else:
                     player.lose()
             self.table.clear_bets()
-            player.track_last_winning_outcomes(winning_bin.outcomes) # TODO: Is there a better way?
+            player.track_last_winning_outcomes(
+                winning_bin.outcomes
+            )  # TODO: Is there a better way?
         self.table.clear_bets()
 
     def __repr__(self):
@@ -219,6 +222,7 @@ class Simulator:
     :type player: Player
 
     """
+
     # TODO: Maybe we need a player factory.  Then maybe we wouldn't need to pass in a fully initialized player.
     # We could instead pass in the class of the player or it's name and a configuration and the player would be created.
     def __init__(self, game, player):
@@ -249,7 +253,9 @@ class Simulator:
         for _ in range(samples):
             stakes = self._session()
             self.maxima.append(max(stakes))
-            self.durations.append(len(stakes) - 1) # -1 because stakes includes starting stake
+            self.durations.append(
+                len(stakes) - 1
+            )  # -1 because stakes includes starting stake
 
     def __repr__(self):
         return self.__class__.__qualname__ + f"({self.game!r}, {self.player!r})"
@@ -257,6 +263,7 @@ class Simulator:
 
 class InvalidBet(Exception):
     """Raises an exception when there is an invalid bet."""
+
     # TODO: Should we instead use a built in exception?
 
 
