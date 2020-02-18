@@ -30,7 +30,7 @@ def lint(session):
 
 @nox.session
 def docs(session):
-    session.install("-r", r"docs\requirements.txt")
+    session.install("-r", os.path.join("docs", "requirements.txt"))
 
     session.chdir("docs")
     if os.path.exists("_build"):
