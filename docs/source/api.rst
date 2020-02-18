@@ -16,5 +16,5 @@ roulette.player
 roulette.bin_builder
 --------------------
 
-.. automodule:: roulette.bin_builder
+.. automodule:: roulette.wheel_builder
    :members:
