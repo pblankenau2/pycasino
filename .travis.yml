@@ -15,22 +15,39 @@ language: python
 # after_success:
 #   - coveralls
 
-jobs:
-  include:
-    # Lint & documentation.
-    - python: 3.6
-      env: NOX_SESSION=lint
-    - python: 3.6
-      env: NOX_SESSION=docs
+# jobs:
+#   include:
+#     # Lint & documentation.
+#     - python: 3.6
+#       env: NOX_SESSION=lint
+#     - python: 3.6
+#       env: NOX_SESSION=docs
 
-    # Unit tests
-    - python: 3.6
-      env: NOX_SESSION=test
-    - python: 3.7
-      env: NOX_SESSION=test
-    - python: 3.8
-      env: NOX_SESSION=test
-    - python: nightly
-      env: NOX_SESSION=test
-after_success:
-  - coveralls
+#     # Unit tests
+#     - python: 3.6
+#       env: NOX_SESSION=test
+#     - python: 3.7
+#       env: NOX_SESSION=test
+#     - python: 3.8
+#       env: NOX_SESSION=test
+#     - python: nightly
+#       env: NOX_SESSION=test
+# after_success:
+#   - coveralls
+
+matrix:
+  include:
+    - python: '3.6'
+      env: NOXSESSIONS="lint docs test"
+    - python: '3.7'  # Also test docs with latest supported python version
+      env: NOXSESSIONS="test"
+    - python: '3.8'  # Also test docs with latest supported python version
+      env: NOXSESSIONS="test"
+
+cache: pip
+
+install:
+  - pip install nox
+
+script:
+  - nox --non-interactive -s $NOXSESSIONS
