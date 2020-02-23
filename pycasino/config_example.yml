@@ -1,0 +1,7 @@
+roulette:
+    table_limit: 350.0
+    base_bet_amount: 20.0
+    max_rounds: 20
+    stake: 100.0
+    num_games: 10
+# Add in other games
