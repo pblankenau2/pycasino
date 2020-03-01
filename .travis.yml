@@ -1,7 +1,5 @@
 language: python
 
-
-
 jobs:
   include:
     - python: '3.6'
@@ -22,3 +20,11 @@ script:
 
 after_success:
   - coveralls
+
+deploy:
+  provider: pypi
+  user: __token__
+  distributions: sdist bdist_wheel
+  password: $CITOKEN
+  on:
+    tags: true
