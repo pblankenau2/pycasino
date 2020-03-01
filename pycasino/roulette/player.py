@@ -116,6 +116,7 @@ class Player(abc.ABC):
         """Update the table with bets."""
         bets = list(self._determine_bets())
         for bet in bets:
+            bet.amount_bet = min(bet.amount_bet, table.limit)
             table.place_bet(bet)
             self.stake -= bet.lose_amount
 
