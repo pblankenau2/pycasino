@@ -18,7 +18,7 @@ URL = "https://github.com/pblankenau2/pycasino"
 EMAIL = "pblankenau2@msn.com"
 AUTHOR = "Philip Blankenau"
 REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 
 def read(fname):
